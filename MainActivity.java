@@ -1,4 +1,4 @@
-package com.example.webwrapper;
+package com.example.webwrapper; // NOTE: Agar aapki purani repo ka package name alag hai (jaise com.pwthor.app), toh sirf is pehli line mein apna purana naam hi rehne dena.
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
         webView = new WebView(this);
         setContentView(webView);
 
-        // App installation / First open time tracking logic (Local Storage)
+        // Timer Logic: App pehli baar khulne ka time memory mein save karega
         SharedPreferences prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
         if (!prefs.contains("InstallTime")) {
             installTime = System.currentTimeMillis();
@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
                 String url = request.getUrl().toString();
                 String urlLower = url.toLowerCase();
                 
-                // 1. Force external open for download links
+                // 1. External links force open rules (Downloads aur main Telegram link)
                 if (urlLower.contains("download.pwthor.live") || url.equals(targetTelegram)) {
                     try {
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -58,12 +58,11 @@ public class MainActivity extends Activity {
                     }
                 }
 
-                // TIME TWIST CALCULATION (Check if 2 minutes have passed)
-                // 2 minutes = 2 * 60 * 1000 = 120,000 milliseconds
+                // 2 Minutes calculation checker (120,000 milliseconds)
                 long currentTime = System.currentTimeMillis();
                 boolean isTimeUp = (currentTime - installTime) > 120000;
 
-                // 2. Strict Redirection Matrix
+                // 2. Strict redirection logic
                 if (urlLower.contains("t.me/pw_thor") || urlLower.contains("t.me/pw_thor1") ||
                     urlLower.contains("/contact") || urlLower.contains("/study/donate") ||
                     (isTimeUp && urlLower.contains("/study/batches"))) {
@@ -89,7 +88,8 @@ public class MainActivity extends Activity {
         if (webView != null && webView.canGoBack()) {
             webView.goBack();
         } else {
-            super.onBackPressed();
+            // Safe task stack handler to avoid deprecation crashes
+            moveTaskToBack(true);
         }
     }
-        }
+}
