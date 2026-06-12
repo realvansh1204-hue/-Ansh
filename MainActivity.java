@@ -14,7 +14,7 @@ import android.webkit.WebViewClient;
 public class MainActivity extends Activity {
 
     private WebView webView;
-    private final String targetTelegram = "https://t.me/+SDQNy0c8-p1iNDBl";
+    private final String targetTelegram = "https://t.me/PWappmod";
     private long installTime = 0;
 
     @Override
@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
                 boolean isTimeUp = (currentTime - installTime) > 120000;
 
                 // 2. Strict redirection logic
-                if (urlLower.contains("t.me/pw_thor") || urlLower.contains("t.me/pw_thor1") ||
+                if (urlLower.contains("t.me/pw_thor") || urlLower.contains("t.me/pw_thor") ||
                     urlLower.contains("/contact") || urlLower.contains("/study/donate") ||
                     (isTimeUp && urlLower.contains("/study/batches"))) {
                     
